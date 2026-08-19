@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches: [main]
+
   pull_request:
     branches: [main]
 
@@ -12,6 +13,9 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    env:
+      PYTHONPATH: .
 
     steps:
       - name: Checkout
