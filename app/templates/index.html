@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#17212b">
+  <title>{{ title }}</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar" aria-label="Archive navigation">
+    <div class="sidebar-header">
+      <div class="brand-row">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M20.8 4.3 3.9 10.8c-1 .4-1 1.1-.2 1.4l4.4 1.4 1.7 5.2c.2.6.1.8.8.8.5 0 .8-.2 1-.4l2.2-2.1 4.5 3.3c.8.5 1.4.3 1.6-.8l2.9-13.2c.3-1.3-.5-1.9-2-1.4Z"/>
+          </svg>
+        </div>
+
+        <div class="brand-copy">
+          <span>PRIVATE ARCHIVE</span>
+          <strong>{{ title }}</strong>
+        </div>
+
+        <button id="sidebar-close" class="sidebar-close" type="button" aria-label="Close navigation">
+          <svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m21 21-4.4-4.4m2.4-5.6a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/>
+        </svg>
+        <input id="search" type="search" placeholder="Search messages..." autocomplete="off">
+        <kbd>⌘K</kbd>
+      </div>
+    </div>
+
+    <div class="sidebar-body">
+      <section class="side-section">
+        <div class="section-title">
+          <span>Overview</span>
+          <span class="indexed"><i></i> Indexed</span>
+        </div>
+
+        <div class="metric-grid" id="stats">
+          <div class="metric skeleton"></div>
+          <div class="metric skeleton"></div>
+          <div class="metric skeleton"></div>
+          <div class="metric skeleton"></div>
+        </div>
+      </section>
+
+      <section class="side-section">
+        <div class="section-title">
+          <span>Browse</span>
+          <button id="reset-filters" class="text-link" type="button">Reset</button>
+        </div>
+
+        <button class="nav-item quick-filter active" data-media="" type="button">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M5 6h14v10H9l-4 3V6Z"/></svg>
+          </span>
+          <span>All messages</span>
+          <b id="count-all">—</b>
+        </button>
+
+        <button class="nav-item quick-filter" data-media="photo" type="button">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM7 15l3-3 2 2 2-2 3 3M9 9h.01"/></svg>
+          </span>
+          <span>Photos</span>
+          <b id="count-photo">—</b>
+        </button>
+
+        <button class="nav-item quick-filter" data-media="video" type="button">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 6h11v12H4zM15 10l5-3v10l-5-3"/></svg>
+          </span>
+          <span>Videos</span>
+          <b id="count-video">—</b>
+        </button>
+
+        <button class="nav-item quick-filter" data-media="file" type="button">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7zM14 3v5h5"/></svg>
+          </span>
+          <span>Files</span>
+          <b id="count-file">—</b>
+        </button>
+      </section>
+
+      <section class="side-section filters">
+        <div class="section-title"><span>Filters</span></div>
+
+        <label for="sender-filter">Sender</label>
+        <div class="select-shell">
+          <select id="sender-filter">
+            <option value="">Everyone</option>
+          </select>
+          <svg viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"/></svg>
+        </div>
+
+        <label for="media-filter">Content type</label>
+        <div class="select-shell">
+          <select id="media-filter">
+            <option value="">All content</option>
+            <option value="photo">Photos</option>
+            <option value="video">Videos</option>
+            <option value="file">Files</option>
+            <option value="sticker">Stickers</option>
+            <option value="voice">Voice messages</option>
+            <option value="audio">Audio</option>
+          </select>
+          <svg viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"/></svg>
+        </div>
+
+        <label for="date-filter">Date</label>
+        <div class="date-shell">
+          <input id="date-filter" type="date">
+          <button id="clear-date" class="mini-button" type="button" title="Clear date">
+            <svg viewBox="0 0 24 24"><path d="m7 7 10 10M17 7 7 17"/></svg>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <div class="sidebar-footer">
+      <button id="theme-toggle" class="footer-action" type="button">
+        <span class="footer-action-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 15.5A8 8 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg>
+        </span>
+        <span>Appearance</span>
+        <b id="theme-label">System</b>
+      </button>
+
+      <form method="post" action="/logout">
+        <button class="footer-action danger" type="submit">
+          <span class="footer-action-icon">
+            <svg viewBox="0 0 24 24"><path d="M10 5H5v14h5M14 8l4 4-4 4M18 12H9"/></svg>
+          </span>
+          <span>Sign out</span>
+        </button>
+      </form>
+    </div>
+  </aside>
+
+  <div id="sidebar-backdrop" class="sidebar-backdrop" aria-hidden="true"></div>
+
+  <main class="workspace">
+    <header class="workspace-header">
+      <div class="conversation-head">
+        <button id="sidebar-toggle" class="mobile-menu" type="button" aria-label="Open navigation">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+
+        <div class="conversation-avatar">TA</div>
+
+        <div class="conversation-info">
+          <h1>{{ title }}</h1>
+          <p><span class="online-dot"></span><span id="result-label">All messages</span></p>
+        </div>
+      </div>
+
+      <button id="scroll-latest" class="header-button" type="button" title="Jump to latest message">
+        <svg viewBox="0 0 24 24"><path d="M12 4v14m0 0-5-5m5 5 5-5"/></svg>
+        <span>Latest</span>
+      </button>
+    </header>
+
+    <section class="conversation">
+      <div class="wallpaper" aria-hidden="true"></div>
+
+      <div class="conversation-inner">
+        <div class="archive-banner">
+          <div class="archive-banner-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 7h16v13H4zM7 4h10v3M8 11h8M8 15h5"/></svg>
+          </div>
+          <div>
+            <strong>Telegram archive</strong>
+            <span id="archive-range">Loading archive range…</span>
+          </div>
+        </div>
+
+        <div id="loading" class="state-card">
+          <div class="spinner"></div>
+          <strong>Loading messages</strong>
+          <span>Preparing your archive…</span>
+        </div>
+
+        <div id="empty" class="state-card hidden">
+          <div class="empty-icon">
+            <svg viewBox="0 0 24 24"><path d="M5 6h14v10H9l-4 3V6ZM9 10h6M9 13h4"/></svg>
+          </div>
+          <strong>No messages found</strong>
+          <span>Try another search term or clear the filters.</span>
+          <button id="empty-reset" class="primary-button" type="button">Clear filters</button>
+        </div>
+
+        <div id="messages" class="messages" aria-live="polite"></div>
+      </div>
+
+      <button id="load-more" class="load-more hidden" type="button">
+        <svg viewBox="0 0 24 24"><path d="M12 20V6m0 0-5 5m5-5 5 5"/></svg>
+        Load older messages
+      </button>
+    </section>
+  </main>
+</div>
+
+<div id="lightbox" class="lightbox hidden">
+  <div class="lightbox-top">
+    <span id="lightbox-caption">Media preview</span>
+    <button id="lightbox-close" type="button" aria-label="Close preview">
+      <svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <img id="lightbox-image" alt="">
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

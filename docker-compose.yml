@@ -1,0 +1,13 @@
+services:
+  telegram-archive:
+    build: .
+    image: telegram-archive-viewer:local
+    container_name: telegram-archive
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./telegram_export:/archive/telegram_export:ro
+      - ./data:/archive/data

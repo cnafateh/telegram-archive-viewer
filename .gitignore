@@ -1,0 +1,23 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Private Telegram data
+telegram_export/*
+!telegram_export/.gitkeep
+
+# Generated SQLite database
+data/*
+!data/.gitkeep
+
+# Local release/build artifacts
+*.tar
+*.tar.gz
+*.zip
+.DS_Store
+Thumbs.db
