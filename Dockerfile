@@ -1,4 +1,4 @@
-FROM python:3.14-slim
+FROM python:3.15-slim
 
 LABEL org.opencontainers.image.title="Telegram Archive Viewer" \
       org.opencontainers.image.description="A private, searchable web viewer for Telegram Desktop HTML exports" \
